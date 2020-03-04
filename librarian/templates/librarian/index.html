@@ -1,0 +1,12 @@
+{% extends "librarian/layout.html" %}
+{% block content %}
+<div class="inner cover">
+    <h1 class="cover-heading">Librarian</h1>
+    <p class="lead">
+        <a href="{% url 'books_list' %}" class="button">Books</a>
+        <a href="{% url 'books_manage' %}" class="button">Add Books</a>
+        <a href="{% url 'books_import' %}" class="button">Import Books</a>
+        <a href="{% url 'books_rest' %}" class="button">Rest</a>
+    </p>
+</div>
+{% endblock %}

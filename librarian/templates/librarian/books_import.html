@@ -1,0 +1,64 @@
+{% extends "librarian/layout.html" %}
+{% block content %}
+<div class="container">
+    <form method="post" action="{% url 'books_import' %}">
+        {% csrf_token %}
+        <div class="table-wrapper">
+            {% if form.errors %}
+                <p>Recheck Form</p>
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+            <p class="lead"><div>Search:</div>{{ form.search }}</p>
+            <p class="lead"><div>Author:</div>{{ form.inauthor }}</p>
+            <p class="lead"><div>Title:</div>{{ form.intitle }}</p>
+            <p class="lead"><div>Publisher:</div>{{ form.inpublisher }}</p>
+            <p class="lead"><div>Subject</div>{{ form.subject }}</p>
+            <p class="lead"><div>ISBN</div>{{ form.isbn }}</p>
+        </div>
+        <input class="button" type="submit" value="Search"/>
+    </form>
+    <form method="post" action="{% url 'books_import' %}">
+    {% csrf_token %}
+    <div class="table-wrapper">
+        <div class="validation_legend"><div class="duplicate_error" style="width: 100px; height:20px"></div><div style="width: 300px; height:20px">-Similar book already in database</div></div>
+        <div class="validation_legend"><div class="minor_error"style="width: 100px; height:20px"></div><div style="width: 300px; height:20px">-Minor issues(May cause problems in search)</div></div>
+        <div class="validation_legend"><div class="major_error"style="width: 100px; height:20px"></div><div style="width: 300px; height:20px">-Major issues(Import at you own risk)</div></div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th class="date_field">Pub Date</th>
+                    <th>ISBN</th>
+                    <th>Pages Count</th>
+                    <th>Cover</th>
+                    <th>Language</th>
+                    <th>Import</th>
+                </tr>
+            </thead>
+            <tbody>       
+                {%for book in books%}
+                    <tr class="{{book.validation}}">
+                        <td>{{book.book.title}}</td>
+                        <td>{{book.book.author}}</td>
+                        <td class="date_field">{{book.book.publication_date}}</td>
+                        <td>{{book.book.isbn}}</td>
+                        <td>{{book.book.page_count}}</td>
+                        <td><a href="{{book.book.cover_link}}">Link</a></td>
+                        <td>{{book.book.language}}</td>
+                        <td><input type="checkbox" name="import{{book.id}}" value="{{book.id}}"></td>
+                    </tr>
+                {%endfor%} 
+            </tbody>
+        </table>
+    </div>
+    {% if books%}
+    <input class="button" type="submit" value="Import"/>
+    {% endif %}
+    </form>
+</div> 
+{% endblock %}

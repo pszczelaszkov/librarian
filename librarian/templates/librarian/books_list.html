@@ -1,0 +1,55 @@
+{% extends "librarian/layout.html" %}
+{% block content %}
+<div class="container">
+    <form method="post" action="{% url 'books_list' %}">
+        {% csrf_token %}
+        <div class="table-wrapper">
+            {% if form.errors %}
+                <p>Recheck Form</p>
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+            <p class="lead"><div>Author:</div>{{ form.author }}</p>
+            <p class="lead"><div>Title:</div>{{ form.title }}</p>
+            <p class="lead"><div>Language:</div>{{ form.language }}</p>
+            <p class="lead"><div>Publication Interval</div>{{ form.publication_from }}-{{ form.publication_to }}</p>
+        </div>
+        <input class="button" type="submit" value="Find"/>
+    </form>
+    <div class="table-wrapper">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th class="date_field">Pub Date</th>
+                    <th>ISBN</th>
+                    <th>Pages Count</th>
+                    <th>Cover</th>
+                    <th>Language</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for book in books%}
+                    <tr>
+                        <td>{{book.title}}</td>
+                        <td>{{book.author}}</td>
+                        <td class="date_field">{{book.publication_date}}</td>
+                        <td>{{book.isbn}}</td>
+                        <td>{{book.page_count}}</td>
+                        <td><a href="{{book.cover_link}}">Link</a></td>
+                        <td>{{book.language}}</td>
+                        {% load static %}
+                        <td><a href="{% url 'books_manage' %}?editid={{book.id}}"><img class="editIcon" src="{% static 'librarian/images/edit.png' %}"></a></td>
+                    </tr>
+                {%endfor%}       
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div> 
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "librarian/layout.html" %}
+{% block content %}
+<div class="container">
+    <form method="post" action="{% url 'books_manage' %}">
+        {% csrf_token %}
+        <div class="table-wrapper">
+            {% if form.errors %}
+                <p>Recheck Form</p>
+                {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            {{ error }}
+                        {% endfor %}
+                {% endfor %}
+            {% endif %}
+            {% if form.id %}
+                <input type="hidden" name="id" value="{{ form.id }}">
+            {% endif %}
+            <p class="lead"><div>Title:</div>{{ form.title }}</p>
+            <p class="lead"><div>Author:</div>{{ form.author }}</p>
+            <p class="lead"><div>Publication Date</div>{{ form.publication_date }}</p>
+            <p class="lead"><div>ISBN:</div>{{ form.isbn}}</p>
+            <p class="lead"><div>Page Count</div>{{ form.page_count }}</p>
+            <p class="lead"><div>Cover Link</div>{{ form.cover_link }}</p>
+            <p class="lead"><div>Language</div>{{ form.language }}</p>
+        </div>
+        <input class="button" type="submit" value="{%if form.id %}Change{% else %}Add{% endif %}"/>
+    </form>
+</div> 
+{% endblock %}
