@@ -169,10 +169,7 @@ def books_check_compatibility(books):
             validators.check_duplicates(book)
             book.clean()
         except ValidationError as validation:
-            levels = validators.validation_levels
-            for level in levels:
-                if validation.message in levels.get(level):
-                    book_bundle["validation"] = level
+            book_bundle["validation"] = validation.code
 
 
 def books_google_parse(data):

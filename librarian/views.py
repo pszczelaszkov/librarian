@@ -34,7 +34,6 @@ def books_manage(request):
     elif(request.method == "POST"):
         id = request.POST.get('id', False)
         form = forms.BooksChangeForm(request.POST)
-        print(request.POST)
         if helpers.books_save_book_form(id, form):
             return HttpResponseRedirect(reverse("books_list"))
 

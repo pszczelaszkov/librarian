@@ -23,10 +23,11 @@ class Book(models.Model):
         try:
             self.clean_fields()
         except ValidationError:
-            raise ValidationError(_('Incorrect Format'))
+            raise ValidationError(_('Incorrect Format'), code='major_error')
 
         validators.check_isbn(self.isbn)
         validators.check_author(self.author)
+        validators.check_title(self.title)
         validators.check_pages_count(self.page_count)
         validators.check_language(self.language)
         validators.check_link(self.cover_link)
