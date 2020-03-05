@@ -25,7 +25,7 @@ SECRET_KEY = '!e60t@c&@*d*$76auh!#6jo*!p=lwqr4&5j%)3h61tid+^ho24'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["prots.eu"]
+ALLOWED_HOSTS = ["prots.eu", "www.prots.eu"]
 
 
 # Application definition
